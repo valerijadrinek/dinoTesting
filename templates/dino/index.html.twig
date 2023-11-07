@@ -4,7 +4,7 @@
  <div class="jumbotron jumbotron-fluid rounded bg-info text-white my-2 my-lg-5 py-2 py-lg-4">
      <div class="container text-center ">
         <h1 class="display-4">Welcome to the Dinoland</h1>
-        <p class="lead">This page shows schedule of dinosours at their habitat...</p>
+        <p class="lead">This page shows schedule of dinosaurs at their habitat...</p>
      </div>
 </div>
  <header></header>
@@ -16,6 +16,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Genus</th>
                 <th scope="col">Length</th>
+                <th scope="col">Size</th>
                 <th scope="col">Enclosure</th>
                 </tr>
             </thead>
@@ -27,6 +28,7 @@
                     <td>{{ dino.name }}</td>
                     <td>{{ dino.genus }}</td>
                     <td>{{ dino.length }}</td>
+                    <td>{{ dino.sizeDescription }}</td>
                     <td>{{ dino.enclosure }}</td>
                 </tr>
                 {% endfor %}
