@@ -1,9 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Tests\Unit\Entity;
 
 use App\Entity\Dinosaur;
 use PHPUnit\Framework\TestCase;
+use App\Enum\HealthStatus;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestDox;
+
 
 class DinosaurTest extends TestCase 
 {
@@ -16,10 +21,7 @@ class DinosaurTest extends TestCase
             enclosure: 'Paddock A',
         );
 
-        self::assertGreaterThan( 10,
-            $dino->getLength(),
-            message: 'Dino is supposed to be bigger than 10 meters!'
-        );
+       
 
         self::assertSame('Big Eaty', $dino->getName());
         self::assertSame('Tyrannosaurus', $dino->getGenus());
@@ -27,21 +29,34 @@ class DinosaurTest extends TestCase
         self::assertSame('Paddock A', $dino->getEnclosure());
     }
 
-    public function testDinosaurOver10misLarge(): void
+   /**
+    *  @dataProvider sizeDescriptionProvider
+    */
+    public function testDinoHasCorrectSizeDescriptionFromLength(int $length, string $expectedSize): void
     {
-        $dino = new Dinosaur(name: 'Big Eaty', length: 10);
+        $dino = new Dinosaur(name: 'Big Eaty', length: $length);
 
-        self::assertSame('Large', $dino->getSizeDescription(), 'This is supposed to be a large Dinosaur');
+        self::assertSame($expectedSize, $dino->getSizeDescription(), 'This is supposed to be a large Dinosaur');
     }
 
-    public function testDinoBetween5And9MetersIsMedium(): void
+    public function testIsAcceptingVisitorsByDefault() : void
     {
-        $dino = new Dinosaur(name: 'Big Eaty', length: 5);
-        self::assertSame('Medium', $dino->getSizeDescription(), 'This is supposed to be a medium Dinosaur');
+        $dino = new Dinosaur(name: 'Dennis');
+        self::assertTrue($dino->isAcceptingVisitors());
     }
-    public function testDinoUnder5MetersIsSmall(): void
+
+    public function testIsNotAcceptingVisitorsIfSick() : void
     {
-        $dino = new Dinosaur(name: 'Big Eaty', length: 4);
-        self::assertSame('Small', $dino->getSizeDescription(), 'This is supposed to be a small Dinosaur');
+        $dino = new Dinosaur('Bumpy');
+        $dino->setHealth(HealthStatus::SICK);
+        self::assertFalse($dino->isAcceptingVisitors());
+    }
+    
+
+    public function sizeDescriptionProvider() : \Generator
+    {
+        yield 'Large Dino' => [10, 'Large'];
+        yield 'Medium Dino' => [5, 'Medium'];
+        yield 'Small Dino' => [4, 'Small'];
     }
 }

@@ -18,6 +18,7 @@
                 <th scope="col">Length</th>
                 <th scope="col">Size</th>
                 <th scope="col">Enclosure</th>
+                <th scope="col">Accepting Visitors</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +31,7 @@
                     <td>{{ dino.length }}</td>
                     <td>{{ dino.sizeDescription }}</td>
                     <td>{{ dino.enclosure }}</td>
+                    <td>{{ dino.acceptingVisitors ? 'Yes' : 'No'}}</td>
                 </tr>
                 {% endfor %}
                
