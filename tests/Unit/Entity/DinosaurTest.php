@@ -39,17 +39,25 @@ class DinosaurTest extends TestCase
         self::assertSame($expectedSize, $dino->getSizeDescription(), 'This is supposed to be a large Dinosaur');
     }
 
-    public function testIsAcceptingVisitorsByDefault() : void
+   
+    public function testIsAcceptingVisitorsByDefault(): void
     {
-        $dino = new Dinosaur(name: 'Dennis');
+        $dino = new Dinosaur('Dennis');
         self::assertTrue($dino->isAcceptingVisitors());
     }
-
-    public function testIsNotAcceptingVisitorsIfSick() : void
+ /**
+     * @dataProvider healthStatusProvider
+     */
+    public function testIsAcceptingVisitorsBasedOnHealthStatus(HealthStatus $healthStatus, bool $expectedVisitorStatus): void
     {
         $dino = new Dinosaur('Bumpy');
-        $dino->setHealth(HealthStatus::SICK);
-        self::assertFalse($dino->isAcceptingVisitors());
+        $dino->setHealth($healthStatus);
+        self::assertSame($expectedVisitorStatus, $dino->isAcceptingVisitors());
+    }
+    public function healthStatusProvider(): \Generator
+    {
+        yield 'Sick dino is not accepting visitors' => [HealthStatus::SICK, false];
+        yield 'Hungry dino is accepting visitors' => [HealthStatus::HUNGRY, true];
     }
     
 
@@ -59,4 +67,6 @@ class DinosaurTest extends TestCase
         yield 'Medium Dino' => [5, 'Medium'];
         yield 'Small Dino' => [4, 'Small'];
     }
+
+   
 }
