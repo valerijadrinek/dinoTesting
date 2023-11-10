@@ -34,6 +34,11 @@ class Dinosaur
         return $this->enclosure;
     }
 
+    public function getHealth(): HealthStatus
+    {
+        return $this->health;
+    }
+
     public function getSizeDescription(): string
     {
         if ($this->length >= 10) {
